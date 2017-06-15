@@ -25,7 +25,7 @@ curl -L https://github.com/NVIDIA/caffe/archive/v0.15.14.tar.gz | tar xvz
 cd caffe-0.15.14
 cp Makefile.config.example Makefile.config
 make pycaffe
-export PYTHONPATH=/home/caffe-0.15.14/python/caffe
+export PYTHONPATH=/home/caffe/python
 
 #Modify makefile
 sed -i -e 's/# USE_CUDNN/USE_CUDNN/' Makefile.config
