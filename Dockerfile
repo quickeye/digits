@@ -20,9 +20,9 @@ RUN apt-get install -y --no-install-recommends libboost-all-dev
 
 #Get Nvidia Caffe Source and Build
 WORKDIR /home/caffe
-RUN curl -L https://github.com/BVLC/caffe/archive/master.tar.gz | tar xvz --strip 1 && \
-    cp Makefile.config.example Makefile.config && \
-    make pycaffe
+RUN curl -L https://github.com/BVLC/caffe/archive/master.tar.gz | tar xvz --strip 1
+RUN cp Makefile.config.example Makefile.config
+RUN make pycaffe
 
 ENV PYTHONPATH=/home/caffe/python:$PYTHONPATH
 
@@ -30,9 +30,9 @@ ENV PYTHONPATH=/home/caffe/python:$PYTHONPATH
 RUN sed -i -e 's|# USE_CUDNN|USE_CUDNN|' Makefile.config && \
     sed -i -e 's|# WITH_PYTHON_LAYER|WITH_PYTHON_LAYER|' Makefile.config && \
     sed -i -e 's|INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include|INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/include|' Makefile.config && \
-    sed -i -n '/# For CUDA < 6\.0, comment the \*_50 lines for compatibility\./{p;:a;N;/# BLAS choice:/!ba;s/.*\n/CUDA_ARCH=-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_60,code=sm_60 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_62,code=sm_62\n/};p' Makefile.config && \
-    cat Makefile.config && \
-    make all
+    sed -i -n '/# For CUDA < 6\.0, comment the \*_50 lines for compatibility\./{p;:a;N;/# BLAS choice:/!ba;s/.*\n/CUDA_ARCH=-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_60,code=sm_60 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_62,code=sm_62\n/};p' Makefile.config
+RUN cat Makefile.config && \
+RUN make all
 
 #Install NVidia Digits Dependancies
 RUN sudo apt-get install -y --no-install-recommends \
