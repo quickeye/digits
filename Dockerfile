@@ -38,7 +38,7 @@ RUN cat Makefile.config
 RUN make pycaffe
 RUN make all
 
-# Install NVidia Digits Dependancies
+# Install NVidia Digits Dependencies
 RUN apt-get install -y --no-install-recommends \
     git \
     graphviz \
@@ -51,11 +51,12 @@ RUN apt-get install -y --no-install-recommends \
     python-pil \
     python-pip \
     python-protobuf \
-    python-scipy
+    python-scipy \
+    python-setuptools
 
 # Install NVidia Digits from Source
 WORKDIR /home/digits
 ENV DIGITS_ROOT=/home/digits
-RUN curl -L https://github.com/NVIDIA/DIGITS/archive/v4.1-dev.tar.gz | tar xvz --strip 1 && \
-    pip install pyparsing==1.5.7 && \
-    pip install -r $DIGITS_ROOT/requirements.txt
+RUN curl -L https://github.com/NVIDIA/DIGITS/archive/v4.1-dev.tar.gz | tar xvz --strip 1
+RUN pip install pyparsing==1.5.7
+RUN pip install -r $DIGITS_ROOT/requirements.txt
