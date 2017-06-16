@@ -59,4 +59,9 @@ WORKDIR /home/digits
 ENV DIGITS_ROOT=/home/digits
 RUN curl -L https://github.com/NVIDIA/DIGITS/archive/v4.1-dev.tar.gz | tar xvz --strip 1
 RUN pip install pyparsing==1.5.7
+
+# Fix gevent error by downgrading version
+# UnicodeError: ('The value must be a native string', 'Access-Control-Max-Age', 3600)
+RUN sed -i -e 's|gevent>=1.0,<=1.1.0|gevent>=1.0,<=1.0.2|' $DIGITS_ROOT/requirements.txt
+
 RUN pip install -r $DIGITS_ROOT/requirements.txt
