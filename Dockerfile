@@ -39,7 +39,7 @@ RUN make pycaffe
 RUN make all
 
 # Install NVidia Digits Dependancies
-RUN sudo apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
     git \
     graphviz \
     python-dev \
@@ -57,5 +57,5 @@ RUN sudo apt-get install -y --no-install-recommends \
 WORKDIR /home/digits
 ENV DIGITS_ROOT=/home/digits
 RUN curl -L https://github.com/NVIDIA/DIGITS/archive/v4.1-dev.tar.gz | tar xvz --strip 1 && \
-    sudo pip install pyparsing==1.5.7 && \
-    sudo pip install -r $DIGITS_ROOT/requirements.txt
+    pip install pyparsing==1.5.7 && \
+    pip install -r $DIGITS_ROOT/requirements.txt
