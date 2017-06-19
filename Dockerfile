@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     libgoogle-glog-dev \
     libatlas-base-dev \
     liblmdb-dev \
-    python-skimage-lib
+    python-skimage-lib \
+    vim
 
 RUN apt-get install -y --no-install-recommends libboost-all-dev
 
