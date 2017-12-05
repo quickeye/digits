@@ -1,6 +1,6 @@
-FROM nvidia/cuda:8.0-cudnn5-devel
+FROM nvidia/cuda:8.0-cudnn7-devel
 MAINTAINER David Wilding <wilding@gmail.com>
-LABEL "UBUNTU 14.04, CUDA=8.0, CUDNN=5, BVLC/CAFFE=master, DIGITS=4.1"  
+LABEL "UBUNTU 14.04, CUDA=8.0, CUDNN=7, BVLC/CAFFE=master, DIGITS=4.1"  
 
 # Install NVidia Caffe Dependancies
 RUN apt-get update && apt-get install -y \
