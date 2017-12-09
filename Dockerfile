@@ -23,7 +23,15 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get install -y --no-install-recommends libboost-all-dev
 
-# Get Nvidia Caffe Source and Build
+# Download and make Nvidia NCCL
+WORKDIR /home/nccl
+RUN curl -L https://github.com/NVIDIA/nccl/archive/master.tar.gz | tar xvz --strip 1
+RUN make CUDA_HOME=/usr/local/cuda-8.0 test
+RUN LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./build/lib
+RUN cp /home/nccl/build/lib/* /usr/lib
+RUN cp /home/nccl/build/include/* /usr/include
+
+# Download BLVC Caffe
 WORKDIR /home/caffe
 RUN curl -L https://github.com/BVLC/caffe/archive/master.tar.gz | tar xvz --strip 1
 RUN cp Makefile.config.example Makefile.config
@@ -32,6 +40,7 @@ ENV PYTHONPATH=/home/caffe/python:$PYTHONPATH
 
 # Modify Makefile
 RUN sed -i -e 's|# USE_CUDNN|USE_CUDNN|' Makefile.config && \
+    sed -i -e 's|# USE_NCCL|USE_NCCL|' Makefile.config && \
     sed -i -e 's|# WITH_PYTHON_LAYER|WITH_PYTHON_LAYER|' Makefile.config && \
     sed -i -e 's|INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include|INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/include /usr/local/include /usr/include/hdf5/serial|' Makefile.config && \
     sed -i -e 's|LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib|LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial|' Makefile.config && \
